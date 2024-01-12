@@ -83,7 +83,7 @@ export const Home = () => {
           <ChartContainer>
             <header>
               <Title
-                title="Evolução financeira"
+                title="Evolução Financeira"
                 subtitle="Saldo, Entradas e Gastos no ano"
               />
               <ChartAction>
