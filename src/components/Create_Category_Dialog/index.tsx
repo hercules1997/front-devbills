@@ -29,7 +29,7 @@ export const CreateCategoryDialog = () => {
       <Container>
         <form>
           <div>
-            <Input label="Nome" placeholder="Mome da Categoria..." />
+            <Input label="Nome" placeholder="Nome da Categoria..." />
             <Input label="Cor" type="color" />
           </div>
 
