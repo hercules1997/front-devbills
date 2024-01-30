@@ -1,7 +1,8 @@
 import { ResponsivePie } from '@nivo/pie'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { theme } from '../../styles/theme'
 import { FormatCurrency } from '../../utils/format_currency'
+import { api } from '../../server/api'
 
 const api_Data = [
   {
@@ -39,6 +40,16 @@ type Chart_Data = {
 }
 
 export const Categories_Pie_Chart = () => {
+  const [listCategories, setListCategories] = useState([])
+  console.log(listCategories)
+  useEffect(() => {
+    const loadCategories = async () => {
+      const { data: categorias } = await api.get('/categories')
+      setListCategories(categorias)
+    }
+    loadCategories()
+  }, [])
+
   const data = useMemo<Chart_Data[]>(() => {
     const chartData = api_Data.map((item) => ({
       id: item.title,
