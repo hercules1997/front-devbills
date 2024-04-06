@@ -4,7 +4,6 @@ import { Button } from '../Button'
 import { Title } from '../Title'
 import { Input } from '../Input'
 import { Container } from './style'
-import { api } from '../../server/api'
 
 export const CreateCategoryDialog = () => {
   const [open, setOpen] = useState(false)
@@ -15,20 +14,7 @@ export const CreateCategoryDialog = () => {
     setOpen(false)
   }, [])
 
-  const create_Category = async () => {
-    const data = {
-      title: nameCategory,
-      color: color,
-    }
-
-    await api.post('/categories', data)
-  }
-  const onSubmit = useCallback(() => {
-    create_Category()
-
-    handleClose()
-  }, [handleClose])
-
+  
   return (
     <Dialog
       open={open}
@@ -62,7 +48,7 @@ export const CreateCategoryDialog = () => {
             <Button variant="outline" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button type="button" onClick={onSubmit}>
+            <Button type="button" >
               Cadastrar
             </Button>
           </footer>
