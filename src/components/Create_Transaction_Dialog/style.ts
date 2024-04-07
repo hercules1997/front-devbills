@@ -26,6 +26,33 @@ export const ContentForm = styled.div`
   flex-direction: column;
   gap: 0.75rem;
 `
+export const ContentSelectColor = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 0;
+  height: 2.25rem;
+  background-color: ${theme.colors.black};
+  border-radius: 0.25rem;
+  padding: 0 0.75rem;
+  border: 1px solid transparent;
+  transform: all 100ms;
+  margin-top: 1rem;
+  color: ${(props) => props.color};
+  color: ${theme.colors.neutral};
+  font-size: 1rem;
+  width: 100%;
+
+  transform: all 100ms;
+
+  div {
+    border-radius: 0.547rem;
+    padding: 0 0.75rem;
+    background-color: ${(props) => props.color};
+    color: ${(props) => props.color};
+    border: 1px solid ${theme.colors.neutral};
+  } 
+`
 
 export const InputGroup = styled.div`
   display: flex;
@@ -91,4 +118,9 @@ export const RadioGroup = styled.div`
     color: ${theme.colors.white};
     font-size: 0.875rem;
   }
+`
+export const MessageError = styled.span`
+  color: ${theme.colors.error};
+  margin-top: 0.125rem;
+  font-size: 0.625rem;
 `

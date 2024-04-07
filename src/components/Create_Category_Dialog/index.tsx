@@ -4,17 +4,40 @@ import { Button } from '../Button'
 import { Title } from '../Title'
 import { Input } from '../Input'
 import { Container } from './style'
+import { CreateCategoryData } from '../../validators/types'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createCategorySchema } from '../../validators/schemas'
+import { useFetchAPI } from '../../hooks/useFetchAPI'
 
 export const CreateCategoryDialog = () => {
+  const { createCategory, fetchCategories } = useFetchAPI()
   const [open, setOpen] = useState(false)
-  const [nameCategory, setNameCategory] = useState('')
-  const [color, setColor] = useState('')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateCategoryData>({
+    defaultValues: {
+      title: '',
+      color: '',
+    },
+    resolver: zodResolver(createCategorySchema),
+  })
 
   const handleClose = useCallback(() => {
     setOpen(false)
   }, [])
 
-  
+  const onSubmit = useCallback(
+    async (data: CreateCategoryData) => {
+      await createCategory(data)
+      handleClose()
+      await fetchCategories()
+    },
+    [handleClose, createCategory, fetchCategories],
+  )
+
   return (
     <Dialog
       open={open}
@@ -27,30 +50,22 @@ export const CreateCategoryDialog = () => {
       />
 
       <Container>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Input
               label="Nome"
               placeholder="Nome da Categoria..."
-              onChange={(e) => setNameCategory(e.target.value)}
-              value={nameCategory}
+              {...register('title')}
             />
-            <Input
-              label="Cor"
-              type="color"
-              onChange={(e) => setColor(e.target.value)}
-              value={color}
-            />
+            {errors.title?.message && <p>{errors.title?.message}</p>}
+            <Input label="Cor" type="color" {...register('color')} />
+            {errors.color?.message && <p>{errors.color?.message}</p>}
           </div>
-          <h1>{nameCategory}</h1>
-          <h1>{color}</h1>
           <footer>
             <Button variant="outline" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button type="button" >
-              Cadastrar
-            </Button>
+            <Button type="submit">Cadastrar</Button>
           </footer>
         </form>
       </Container>
