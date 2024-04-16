@@ -6,7 +6,7 @@ import { Input } from '../Input'
 import {
   Container,
   ContentForm,
-  ContentSelectColor,
+  // ContentSelectColor,
   CurrencyInput,
   InputGroup,
   MessageError,
@@ -15,27 +15,27 @@ import {
 } from './style'
 import { InputMask } from '@react-input/mask'
 import { useFetchAPI } from '../../hooks/useFetchAPI'
-import { Category } from '../../server/api-types'
+// import { Category } from '../../server/api-types'
 import { useForm } from 'react-hook-form'
-import { createTransactionData } from '../../validators/types'
+import { CreateTransactionData } from '../../validators/types'
 import dayjs from 'dayjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createTransactionSchema } from '../../validators/schemas'
 
 export const CreateTransactionDialog = () => {
-  const { categories, fetchCategories } = useFetchAPI()
+  const { categories, fetchCategories, createTransaction } = useFetchAPI()
   const [open, setOpen] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null,
-  )
+  //   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+  //     null,
+  //   )
   const {
     register,
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<createTransactionData>({
+  } = useForm<CreateTransactionData>({
     defaultValues: {
-      categoryId: '',
+      categoryId: 'null',
       title: '',
       amount: '',
       date: dayjs('2024-01-01').format('DD/MM/YYYY'),
@@ -44,11 +44,13 @@ export const CreateTransactionDialog = () => {
     resolver: zodResolver(createTransactionSchema),
   })
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const categoryId = e.target.value
-    const category = categories.find((cat) => cat._id === categoryId)
-    setSelectedCategory(category || null)
-  }
+  //    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //      const categoryId = e.target.value
+
+  //      console.log(categoryId)
+  //      const category = categories.find((cat) => cat._id === categoryId)
+  //      setSelectedCategory(category || null)
+  //    }
 
   useEffect(() => {
     fetchCategories()
@@ -57,10 +59,15 @@ export const CreateTransactionDialog = () => {
   const handleClose = useCallback(() => {
     reset()
     setOpen(false)
-  }, [])
-  const onSubmit = useCallback(() => {
-    handleClose()
-  }, [handleClose])
+  }, [reset])
+
+  const onSubmit = useCallback(
+    async (data: CreateTransactionData) => {
+      await createTransaction(data)
+      handleClose()
+    },
+    [handleClose, createTransaction],
+  )
 
   return (
     <Dialog
@@ -78,12 +85,10 @@ export const CreateTransactionDialog = () => {
           <ContentForm>
             <InputGroup>
               <label>Categoria</label>
-              <select
-                title="select"
-                {...register('categoryId')}
-                onChange={(e) => handleCategoryChange(e)}
-              >
-                <option value="null">Selecione uma categoria...</option>
+              <select title="select" {...register('categoryId')}>
+                <option value="null" disabled>
+                  Selecione uma categoria...
+                </option>
                 {categories?.length &&
                   categories.map((itemCategory) => (
                     <option key={itemCategory._id} value={itemCategory._id}>
@@ -94,20 +99,12 @@ export const CreateTransactionDialog = () => {
               {errors.categoryId && (
                 <MessageError>{errors.categoryId?.message}</MessageError>
               )}
-
-              {selectedCategory && (
-                <ContentSelectColor color={selectedCategory.color}>
-                  <p>Cor da categoria</p>
-                  <div color={selectedCategory.color}>
-                    {selectedCategory.color}
-                  </div>
-                </ContentSelectColor>
-              )}
             </InputGroup>
             <Input
               variant="black"
               label="Nome"
               placeholder="Nome da Transação..."
+              {...register('title')}
             />
             {errors.title && (
               <MessageError>{errors.title?.message}</MessageError>
@@ -118,9 +115,11 @@ export const CreateTransactionDialog = () => {
                 format="currency"
                 currency="BRL"
                 placeholder="R$ 0,00"
+                {...register('amount')}
               />
-             { errors.categoryId &&(
-              <MessageError>{errors.amount?.message}</MessageError>)}
+              {errors.amount && (
+                <MessageError>{errors.amount.message}</MessageError>
+              )}
             </InputGroup>
             <InputMask
               component={Input}
@@ -129,17 +128,31 @@ export const CreateTransactionDialog = () => {
               label="Data"
               variant="black"
               placeholder="dd/mm/aaaa"
+              {...register('date')}
             />
-            {errors.date && <MessageError>{errors.date?.message}</MessageError>}
+            {errors.date && <MessageError>{errors.date.message}</MessageError>}
             <RadioForm>
               <RadioGroup>
-                <input type="radio" id="income" value="income" name="type" />
+                <input
+                  type="radio"
+                  id="income"
+                  value="income"
+                  {...register('type')}
+                />
                 <label htmlFor="income">Entrada</label>
               </RadioGroup>
               <RadioGroup>
-                <input type="radio" id="expense" value="expense" name="type" />
+                <input
+                  type="radio"
+                  id="expense"
+                  value="expense"
+                  {...register('type')}
+                />
                 <label htmlFor="expense">Gasto</label>
               </RadioGroup>
+              {errors.type && (
+                <MessageError>{errors.type.message}</MessageError>
+              )}
             </RadioForm>
           </ContentForm>
           <footer>

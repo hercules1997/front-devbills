@@ -49,9 +49,12 @@ export const ContentSelectColor = styled.div`
     border-radius: 0.547rem;
     padding: 0 0.75rem;
     background-color: ${(props) => props.color};
-    color: ${(props) => props.color};
     border: 1px solid ${theme.colors.neutral};
-  } 
+
+    p {
+      visibility: hidden;
+    }
+  }
 `
 
 export const InputGroup = styled.div`

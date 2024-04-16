@@ -23,8 +23,23 @@ import { CreateCategoryDialog } from '../../components/Create_Category_Dialog'
 import { CreateTransactionDialog } from '../../components/Create_Transaction_Dialog'
 import { Categories_Pie_Chart } from '../../components/Categories_Pie_Chart'
 import { Financial_Evolution_Bar_Chart } from '../../components/Financial_Evolution_Bar_Chart'
+import { useForm } from 'react-hook-form'
+import { TransactionsFiltersData } from '../../validators/types'
+import dayjs from 'dayjs'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { transactionsFiltersSchema } from '../../validators/schemas'
+import { MessageError } from '../../components/Create_Transaction_Dialog/style'
 
 export const Home = () => {
+  const transactionsFiltersForm = useForm<TransactionsFiltersData>({
+    defaultValues: {
+      title: '',
+      categoryId: '',
+      beginDate: dayjs().startOf('month').format('DD/MM/YYYY'),
+      endDate: dayjs().endOf('month').format('DD/MM/YYYY'),
+    },
+    resolver: zodResolver(transactionsFiltersSchema),
+  })
   return (
     <>
       <Header>
@@ -49,7 +64,11 @@ export const Home = () => {
                 variant="dark"
                 label="Início"
                 placeholder="dd/mm/aaaa"
+                {...transactionsFiltersForm.register('beginDate')}
               />
+              <MessageError>
+                {transactionsFiltersForm.formState.errors.beginDate?.message}
+              </MessageError>
               <InputMask
                 type="date"
                 component={Input}
@@ -58,7 +77,11 @@ export const Home = () => {
                 variant="dark"
                 label="Fim"
                 placeholder="dd/mm/aaaa"
+                {...transactionsFiltersForm.register('endDate')}
               />
+              <MessageError>
+                {transactionsFiltersForm.formState.errors.endDate?.message}
+              </MessageError>
               <ButtonIcon />
             </InputGroup>
           </Filters>
@@ -105,7 +128,7 @@ export const Home = () => {
         </Section>
         <Aside>
           <header>
-            <Title title="Transações" subtitle="Entradas e Saídas" />
+            <Title title="Transações" subtitle="Entradas e Saídas" {...transactionsFiltersForm.register('title')} />
 
             <SearchTransaction>
               <Input variant="black" placeholder="Buscar transação..." />

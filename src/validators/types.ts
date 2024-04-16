@@ -1,6 +1,8 @@
 import { z } from 'zod'
-import { createCategorySchema, createTransactionSchema } from './schemas'
+import { createCategorySchema, createTransactionSchema, transactionsFiltersSchema } from './schemas'
 
 export type CreateCategoryData = z.infer<typeof createCategorySchema>
 
-export type createTransactionData = z.infer<typeof createTransactionSchema>
+export type CreateTransactionData = z.infer<typeof createTransactionSchema>
+
+export type TransactionsFiltersData = z.infer<typeof transactionsFiltersSchema>
