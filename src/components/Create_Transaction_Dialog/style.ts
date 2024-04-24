@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { theme } from '../../styles/theme'
 import { InputNumberFormat } from '@react-input/number-format'
 
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;

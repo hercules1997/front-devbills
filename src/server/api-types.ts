@@ -17,14 +17,13 @@ export type CreateTransaction = {
   date: string
 }
 
-export type Transactionsfilters = Record<'title' | 'categoryId' | 'beginDate' | 'endDate', string>
 
-// export type TransactionsFilters = {
-//   title?: string
-//   category?: string
-//   beginDate: string
-//   endDate: string
-// }
+export type TransactionsFilters = {
+  title?: string
+  categoryId?: string
+  beginDate: string
+  endDate: string
+}
 
 export type Transaction = {
   _id: string

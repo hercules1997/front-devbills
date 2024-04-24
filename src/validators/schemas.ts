@@ -29,7 +29,7 @@ export const createTransactionSchema = z.object({
   title: z.string().min(1, { message: ' Deve conter pelo menos 1 caractere.' }).max(255),
   amount: z
     .string()
-    .min(1, { message: ' Deve conter pelo menos 1 caractere.' }),
+    .min(1, { message: ' Deve conter pelo menos 1 caractere.' }).max(255),
   date: z
     .string()
     .regex(allRegex.date, {

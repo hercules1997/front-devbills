@@ -15,19 +15,21 @@ import {
 } from './style'
 import { InputMask } from '@react-input/mask'
 import { useFetchAPI } from '../../hooks/useFetchAPI'
-// import { Category } from '../../server/api-types'
+
 import { useForm } from 'react-hook-form'
 import { CreateTransactionData } from '../../validators/types'
 import dayjs from 'dayjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createTransactionSchema } from '../../validators/schemas'
+// import { Category } from '../../server/api-types'
 
 export const CreateTransactionDialog = () => {
-  const { categories, fetchCategories, createTransaction } = useFetchAPI()
+  const { categories, fetchCategories, createTransactions } = useFetchAPI()
   const [open, setOpen] = useState(false)
-  //   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-  //     null,
-  //   )
+
+  //  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+  //    null,
+  //  )
   const {
     register,
     reset,
@@ -63,10 +65,11 @@ export const CreateTransactionDialog = () => {
 
   const onSubmit = useCallback(
     async (data: CreateTransactionData) => {
-      await createTransaction(data)
+      console.log('Data before submitting:', data)
+      await createTransactions(data)
       handleClose()
     },
-    [handleClose, createTransaction],
+    [handleClose, createTransactions],
   )
 
   return (
@@ -118,7 +121,7 @@ export const CreateTransactionDialog = () => {
                 {...register('amount')}
               />
               {errors.amount && (
-                <MessageError>{errors.amount.message}</MessageError>
+                <MessageError>{errors.amount?.message}</MessageError>
               )}
             </InputGroup>
             <InputMask
@@ -151,7 +154,7 @@ export const CreateTransactionDialog = () => {
                 <label htmlFor="expense">Gasto</label>
               </RadioGroup>
               {errors.type && (
-                <MessageError>{errors.type.message}</MessageError>
+                <MessageError>{errors.type?.message}</MessageError>
               )}
             </RadioForm>
           </ContentForm>

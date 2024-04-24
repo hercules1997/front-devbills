@@ -4,7 +4,7 @@ import {
   CreateCategory,
   CreateTransaction,
   Transaction,
-  Transactionsfilters,
+  TransactionsFilters,
 } from './api-types'
 
 export class APIService {
@@ -39,7 +39,7 @@ export class APIService {
     categoryId,
     beginDate,
     endDate,
-  }: Transactionsfilters): Promise<Transaction[]> {
+  }: TransactionsFilters): Promise<Transaction[]> {
     const { data } = await APIService.client.get<Transaction[]>(
       '/transactions',
       {
@@ -47,13 +47,14 @@ export class APIService {
           ...(title?.length && { title }),
           ...(categoryId?.length && { categoryId }),
           beginDate,
-          endDate
+          endDate,
         },
       },
     )
 
     return data
   }
+
   static async getCategories(): Promise<Category[]> {
     const { data } = await APIService.client.get('/categories')
 
