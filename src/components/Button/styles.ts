@@ -1,9 +1,10 @@
-import styled, { css } from 'styled-components'
-import { theme } from '../../styles/theme'
+import { css, styled } from 'styled-components';
+
+import { theme } from '../../styles/theme';
 
 type ContainerProps = {
-  $variant: 'default' | 'outline'
-}
+  $variant: 'default' | 'outline';
+};
 
 export const Container = styled.button<ContainerProps>`
   display: flex;
@@ -14,11 +15,10 @@ export const Container = styled.button<ContainerProps>`
   background-color: ${(props) =>
     props.$variant === 'default' ? theme.colors.primary : 'transparent'};
   color: ${(props) =>
-    props.$variant === 'default' ? theme.colors.black : theme.colors.primary};
-
+    props.$variant === 'default' ? theme.colors.black : theme.colors.black};
   border: 0;
   padding: 0 0.75rem;
-  transition: all 500ms;
+  transition: all 100ms;
 
   ${(props) =>
     props.$variant === 'outline' &&
@@ -29,4 +29,4 @@ export const Container = styled.button<ContainerProps>`
   &:hover {
     background-color: ${theme.colors.primaryDark};
   }
-`
+`;

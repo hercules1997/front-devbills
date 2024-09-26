@@ -1,26 +1,26 @@
-import { FormatCurrency } from '../../utils/format_currency'
-import { Container, Content, Info } from './styles'
+import { formatCurrency } from '../../utils/format-currency';
+import { Container, Info, Content } from './styles';
 
 type TransactionProps = {
-  id: number
-  title: string
-  date: string
-  amount: number
+  id: number;
+  title: string;
+  date: string;
+  amount: number;
   category: {
-    title: string
-    color: string
-  }
-  variant?: 'income' | 'expense'
-}
+    title: string;
+    color: string;
+  };
+  variant?: 'income' | 'expense';
+};
 
-export const Transaction = ({
+export function Transaction({
   id,
   title,
   date,
   amount,
   category,
   variant = 'income',
-}: TransactionProps) => {
+}: TransactionProps) {
   return (
     <Container>
       <Info>
@@ -32,9 +32,9 @@ export const Transaction = ({
       </Info>
 
       <Content $variant={variant} $tagColor={category.color}>
-        <strong>{FormatCurrency(amount)}</strong>
+        <strong>{formatCurrency(amount)}</strong>
         <span>{category.title.toUpperCase()}</span>
       </Content>
     </Container>
-  )
+  );
 }

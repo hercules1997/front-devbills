@@ -1,9 +1,15 @@
-import { H1 } from './styles'
+import styled from 'styled-components'
 
-export const Logo = () => {
+export function Logo() {
   return (
     <>
-      <H1>{'<DevBills$ />'}</H1>
+      <Span>FinanceFamily</Span>
     </>
   )
 }
+
+const Span = styled.span`
+  color: #000;
+  font-size: 2rem;
+  font-weight: bold;
+`
