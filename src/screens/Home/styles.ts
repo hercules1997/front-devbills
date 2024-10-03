@@ -18,14 +18,24 @@ export const Header = styled.header`
     align-items: center;
     gap: 0.5rem;
   }
-`;
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
+`
 
 export const Main = styled.main`
   display: flex;
   gap: 0.75rem;
   width: 100%;
   padding: 0 1.5rem 1.5rem 1.5rem;
-`;
+
+  @media (max-width: 1030px) {
+    display: flex;
+    flex-direction: column;
+  }
+`
 
 export const Section = styled.section`
   display: flex;
@@ -39,7 +49,12 @@ export const Filters = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-`;
+
+  @media (max-width: 630px) {
+    display: flex;
+    flex-direction: column;
+  }
+`
 
 export const InputGroup = styled.div`
   display: flex;
@@ -54,7 +69,12 @@ export const Balance = styled.div`
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-`;
+
+  @media (max-width: 630px) {
+    display: flex;
+    flex-direction: column;
+  }
+`
 
 export const ChartContainer = styled.div`
   display: flex;
