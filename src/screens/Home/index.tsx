@@ -45,8 +45,8 @@ export function Home() {
     defaultValues: {
       title: '',
       categoryId: '',
-      beginDate: dayjs().startOf('month').format('DD/MM/YYYY'),
-      endDate: dayjs().endOf('month').format('DD/MM/YYYY'),
+      beginDate: dayjs().startOf('year').format('DD/MM/YYYY'),
+      endDate: dayjs().endOf('day').format('DD/MM/YYYY'),
     },
     resolver: zodResolver(transactionsFilterSchema),
   })
