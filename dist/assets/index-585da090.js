@@ -477,11 +477,21 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     align-items: center;
     gap: 0.5rem;
   }
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
 `,Yie=Ve.main`
   display: flex;
   gap: 0.75rem;
   width: 100%;
   padding: 0 1.5rem 1.5rem 1.5rem;
+
+  @media (max-width: 1030px) {
+    display: flex;
+    flex-direction: column;
+  }
 `,Zie=Ve.section`
   display: flex;
   flex-direction: column;
@@ -492,6 +502,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  @media (max-width: 630px) {
+    display: flex;
+    flex-direction: column;
+  }
 `,Kie=Ve.div`
   display: flex;
   align-items: flex-end;
@@ -503,6 +518,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   align-items: center;
   gap: 0.75rem;
   width: 100%;
+
+  @media (max-width: 630px) {
+    display: flex;
+    flex-direction: column;
+  }
 `,F_=Ve.div`
   display: flex;
   flex-direction: column;
@@ -564,7 +584,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     width: 0.875rem;
     height: 0.875rem;
   }
-`;function rae(){var h,b,v,p,y;const e=Kf({defaultValues:{title:"",categoryId:"",beginDate:ci().startOf("month").format("DD/MM/YYYY"),endDate:ci().endOf("month").format("DD/MM/YYYY")},resolver:Og(wK)}),t=Kf({defaultValues:{year:ci().get("year").toString()}}),{transactions:n,dashboard:r,financialEvolution:i,fetchFinancialEvolution:a,fetchTransactions:o,fetchDashboard:s}=Sg();x.useEffect(()=>{const{beginDate:_,endDate:w}=e.getValues();s({beginDate:_,endDate:w}),o(e.getValues()),a(t.getValues())},[o,e,s,a,t]);const[l,u]=x.useState(null),f=x.useCallback(async({id:_,title:w,color:$})=>{u({id:_,title:w,color:$}),e.setValue("categoryId",_),await o(e.getValues())},[e,o]),c=x.useCallback(async()=>{u(null),e.setValue("categoryId",""),await o(e.getValues())},[e,o]),d=x.useCallback(async _=>{await o(_)},[o]),m=x.useCallback(async _=>{const{beginDate:w,endDate:$}=_;await s({beginDate:w,endDate:$}),await o(_)},[s,o]),g=x.useCallback(async _=>{await a(_)},[a]);return S.jsxs(S.Fragment,{children:[S.jsxs(qie,{children:[S.jsx(Fie,{}),S.jsxs("div",{children:[S.jsx(vQ,{}),S.jsx(cQ,{})]})]}),S.jsxs(Yie,{children:[S.jsxs(Zie,{children:[S.jsxs(Gie,{children:[S.jsx(Io,{title:"Saldo",subtitle:"Receitas e despesas no período"}),S.jsxs(Kie,{children:[S.jsx(rf,{component:Bi,mask:"dd/mm/aaaa",replacement:{d:/\d/,m:/\d/,a:/\d/},variant:"white",label:"Início",placeholder:"dd/mm/aaaa",error:(h=e.formState.errors.beginDate)==null?void 0:h.message,...e.register("beginDate")}),S.jsx(rf,{component:Bi,mask:"dd/mm/aaaa",replacement:{d:/\d/,m:/\d/,a:/\d/},variant:"white",label:"Fim",placeholder:"dd/mm/aaaa",error:(b=e.formState.errors.endDate)==null?void 0:b.message,...e.register("endDate")}),S.jsx(I0,{onClick:e.handleSubmit(m)})]})]}),S.jsxs(Xie,{children:[S.jsx(j0,{title:"Saldo disponiivel",amount:((v=r==null?void 0:r.balance)==null?void 0:v.balance)||0}),S.jsx(j0,{title:"Ganhos",amount:((p=r==null?void 0:r.balance)==null?void 0:p.incomes)||0,variant:"incomes"}),S.jsx(j0,{title:"Gastos",amount:((y=r==null?void 0:r.balance)==null?void 0:y.expenses)*-1||0,variant:"expenses"})]}),S.jsxs(F_,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Gastos",subtitle:"Despesas por categoria no período"}),l&&S.jsxs(nae,{$color:l.color,onClick:c,children:[S.jsx(Uw,{}),l.title.toUpperCase()]})]}),S.jsx(z_,{children:S.jsx($G,{expenses:r.expenses,onClick:f})})]}),S.jsxs(F_,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Evolução Financeira",subtitle:"Saldo, Receitas e Gastos no ano"}),S.jsxs(Qie,{children:[S.jsx(rf,{component:Bi,mask:"aaaa",replacement:{a:/\d/},variant:"white",label:"Ano",placeholder:"aaaa",...t.register("year")}),S.jsx(I0,{onClick:t.handleSubmit(g)})]})]}),S.jsx(z_,{children:S.jsx(jie,{financialEvolution:i})})]})]}),S.jsxs(Jie,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Transações",subtitle:"Receitas e Gastos no período"}),S.jsxs(eae,{children:[S.jsx(Bi,{variant:"white",placeholder:"Procurar transação...",...e.register("title")}),S.jsx(I0,{onClick:e.handleSubmit(d)})]})]}),S.jsx(tae,{children:(n==null?void 0:n.length)&&(n==null?void 0:n.map((_,w)=>S.jsx(Hie,{id:w+1,amount:_.type==="expense"?_.amount*-1:_.amount,date:ci(_.date).add(3,"hours").format("DD/MM/YYYY"),category:{title:_.category.title,color:_.category.color},title:_.title,variant:_.type},_._id)))})]})]})]})}const iae=wO`
+`;function rae(){var h,b,v,p,y;const e=Kf({defaultValues:{title:"",categoryId:"",beginDate:ci().startOf("year").format("DD/MM/YYYY"),endDate:ci().endOf("day").format("DD/MM/YYYY")},resolver:Og(wK)}),t=Kf({defaultValues:{year:ci().get("year").toString()}}),{transactions:n,dashboard:r,financialEvolution:i,fetchFinancialEvolution:a,fetchTransactions:o,fetchDashboard:s}=Sg();x.useEffect(()=>{const{beginDate:_,endDate:w}=e.getValues();s({beginDate:_,endDate:w}),o(e.getValues()),a(t.getValues())},[o,e,s,a,t]);const[l,u]=x.useState(null),f=x.useCallback(async({id:_,title:w,color:$})=>{u({id:_,title:w,color:$}),e.setValue("categoryId",_),await o(e.getValues())},[e,o]),c=x.useCallback(async()=>{u(null),e.setValue("categoryId",""),await o(e.getValues())},[e,o]),d=x.useCallback(async _=>{await o(_)},[o]),m=x.useCallback(async _=>{const{beginDate:w,endDate:$}=_;await s({beginDate:w,endDate:$}),await o(_)},[s,o]),g=x.useCallback(async _=>{await a(_)},[a]);return S.jsxs(S.Fragment,{children:[S.jsxs(qie,{children:[S.jsx(Fie,{}),S.jsxs("div",{children:[S.jsx(vQ,{}),S.jsx(cQ,{})]})]}),S.jsxs(Yie,{children:[S.jsxs(Zie,{children:[S.jsxs(Gie,{children:[S.jsx(Io,{title:"Saldo",subtitle:"Receitas e despesas no período"}),S.jsxs(Kie,{children:[S.jsx(rf,{component:Bi,mask:"dd/mm/aaaa",replacement:{d:/\d/,m:/\d/,a:/\d/},variant:"white",label:"Início",placeholder:"dd/mm/aaaa",error:(h=e.formState.errors.beginDate)==null?void 0:h.message,...e.register("beginDate")}),S.jsx(rf,{component:Bi,mask:"dd/mm/aaaa",replacement:{d:/\d/,m:/\d/,a:/\d/},variant:"white",label:"Fim",placeholder:"dd/mm/aaaa",error:(b=e.formState.errors.endDate)==null?void 0:b.message,...e.register("endDate")}),S.jsx(I0,{onClick:e.handleSubmit(m)})]})]}),S.jsxs(Xie,{children:[S.jsx(j0,{title:"Saldo disponiivel",amount:((v=r==null?void 0:r.balance)==null?void 0:v.balance)||0}),S.jsx(j0,{title:"Ganhos",amount:((p=r==null?void 0:r.balance)==null?void 0:p.incomes)||0,variant:"incomes"}),S.jsx(j0,{title:"Gastos",amount:((y=r==null?void 0:r.balance)==null?void 0:y.expenses)*-1||0,variant:"expenses"})]}),S.jsxs(F_,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Gastos",subtitle:"Despesas por categoria no período"}),l&&S.jsxs(nae,{$color:l.color,onClick:c,children:[S.jsx(Uw,{}),l.title.toUpperCase()]})]}),S.jsx(z_,{children:S.jsx($G,{expenses:r.expenses,onClick:f})})]}),S.jsxs(F_,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Evolução Financeira",subtitle:"Saldo, Receitas e Gastos no ano"}),S.jsxs(Qie,{children:[S.jsx(rf,{component:Bi,mask:"aaaa",replacement:{a:/\d/},variant:"white",label:"Ano",placeholder:"aaaa",...t.register("year")}),S.jsx(I0,{onClick:t.handleSubmit(g)})]})]}),S.jsx(z_,{children:S.jsx(jie,{financialEvolution:i})})]})]}),S.jsxs(Jie,{children:[S.jsxs("header",{children:[S.jsx(Io,{title:"Transações",subtitle:"Receitas e Gastos no período"}),S.jsxs(eae,{children:[S.jsx(Bi,{variant:"white",placeholder:"Procurar transação...",...e.register("title")}),S.jsx(I0,{onClick:e.handleSubmit(d)})]})]}),S.jsx(tae,{children:(n==null?void 0:n.length)&&(n==null?void 0:n.map((_,w)=>S.jsx(Hie,{id:w+1,amount:_.type==="expense"?_.amount*-1:_.amount,date:ci(_.date).add(3,"hours").format("DD/MM/YYYY"),category:{title:_.category.title,color:_.category.color},title:_.title,variant:_.type},_._id)))})]})]})]})}const iae=wO`
   * {
     margin: 0;
     padding: 0;
