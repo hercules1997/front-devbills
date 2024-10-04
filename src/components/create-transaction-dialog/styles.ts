@@ -89,11 +89,11 @@ export const RadioGroup = styled.div`
   input {
     width: 1rem;
     height: 1rem;
-    accent-color: ${theme.colors.primary};
+    accent-color: ${theme.colors.black};
   }
 
   label {
-    color: ${theme.colors.white};
+    color: ${theme.colors.black};
     font-size: 0.875rem;
   }
 `;

@@ -25,17 +25,27 @@ export const Container = styled.div<ContainerProps>`
     width: 1.75rem;
     height: 1.75rem;
     fill: ${(props) => variantColorMap[props.$variant]};
+    @media (max-width: 630px) {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
   span {
     font-size: 1rem;
     font-weight: 300;
     color: ${theme.colors.dark};
+    @media (max-width: 630px) {
+      font-size: 8px;
+    }
   }
 
   strong {
     font-size: 1.5rem;
     font-weight: 500;
     color: ${(props) => variantColorMap[props.$variant]};
+    @media (max-width: 630px) {
+      font-size: 13px;
+    }
   }
-`;
+`

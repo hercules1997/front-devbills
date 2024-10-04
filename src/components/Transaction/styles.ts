@@ -77,8 +77,10 @@ export const Content = styled.div<ContentType>`
     font-size: 0.625rem;
     font-weight: 400;
     border: 1px solid ${(props) => props.$tagColor};
-    color: ${(props) => props.$tagColor};
+    background-color: ${(props) => props.$tagColor};
+
+    color:  ${theme.colors.black};
     padding: 0.25rem;
     border-radius: 0.125rem;
   }
-`;
+`

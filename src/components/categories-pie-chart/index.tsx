@@ -78,7 +78,7 @@ export function CategoriesPieChart({
       legends={[
         {
           anchor: 'top',
-          direction: 'row',
+          direction: 'column',
           justify: false,
           translateX: 0,
           translateY: -20,
@@ -88,7 +88,7 @@ export function CategoriesPieChart({
           itemDirection: 'left-to-right',
           itemOpacity: 1,
           symbolSize: 10,
-          symbolShape: 'circle',
+          symbolShape: 'diamond',
         },
       ]}
     />

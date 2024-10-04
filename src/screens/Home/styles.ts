@@ -31,7 +31,7 @@ export const Main = styled.main`
   width: 100%;
   padding: 0 1.5rem 1.5rem 1.5rem;
 
-  @media (max-width: 1030px) {
+  @media (max-width: 1830px) {
     display: flex;
     flex-direction: column;
   }
@@ -54,6 +54,10 @@ export const Filters = styled.div`
     display: flex;
     flex-direction: column;
   }
+
+  @media (max-width: 630px) {
+
+  }
 `
 
 export const InputGroup = styled.div`
@@ -70,10 +74,7 @@ export const Balance = styled.div`
   gap: 0.75rem;
   width: 100%;
 
-  @media (max-width: 630px) {
-    display: flex;
-    flex-direction: column;
-  }
+
 `
 
 export const ChartContainer = styled.div`
@@ -116,7 +117,7 @@ export const Aside = styled.aside`
     flex-direction: column;
     gap: 1rem;
   }
-`;
+`
 
 export const SearchTransaction = styled.div`
   display: flex;
@@ -128,7 +129,10 @@ export const TransactionGroup = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 0.75rem;
-`;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 200px;
+`
 
 export const CategoryBadge = styled.span<CategoryBadgePros>`
   display: flex;
