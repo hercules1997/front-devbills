@@ -57,6 +57,15 @@ export function Home() {
     },
   })
 
+  // Estados de carregamento
+  const [isLoadingDashboard, setIsLoadingDashboard] = useState(false)
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false)
+  const [isLoadingFinancialEvolution, setIsLoadingFinancialEvolution] =
+    useState(false)
+
+  // Estado de erro
+  const [error, setError] = useState<string | null>(null)
+
   const {
     transactions,
     dashboard,
@@ -64,7 +73,13 @@ export function Home() {
     fetchFinancialEvolution,
     fetchTransactions,
     fetchDashboard,
+    deleteTransaction
   } = useFetchAPI()
+
+  // Formatação de datas para ISO
+  const formatToISO = (dateString: string) => {
+    return dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD')
+  }
 
   useEffect(() => {
     const { beginDate, endDate } = transactionsFilterForm.getValues()
@@ -100,26 +115,70 @@ export function Home() {
     await fetchTransactions(transactionsFilterForm.getValues())
   }, [transactionsFilterForm, fetchTransactions])
 
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      // Sua lógica para deletar a transação aqui
+      console.log(`Deletando transação com ID: ${transactionId}`)
+      // Exemplo de requisição para deletar
+      await deleteTransaction(`${transactionId}`)
+      // Atualize a lista de transações após a exclusão
+      await fetchTransactions(transactionsFilterForm.getValues())
+    } catch (error) {
+      console.error('Erro ao deletar a transação:', error)
+    }
+  }
+
   const onSubmitTransactions = useCallback(
     async (data: TransactionsFilterData) => {
-      await fetchTransactions(data)
+      setIsLoadingTransactions(true)
+      setError(null)
+      try {
+        await fetchTransactions(data)
+      } catch (err) {
+        setError('Erro ao carregar transações.')
+      } finally {
+        setIsLoadingTransactions(false)
+      }
     },
     [fetchTransactions],
   )
 
   const onSubmitDashboard = useCallback(
     async (data: TransactionsFilterData) => {
-      const { beginDate, endDate } = data
+      setIsLoadingDashboard(true)
+      setError(null)
+      try {
+        const { beginDate, endDate } = data
 
-      await fetchDashboard({ beginDate, endDate })
-      await fetchTransactions(data)
+        await fetchDashboard({
+          beginDate: formatToISO(beginDate),
+          endDate: formatToISO(endDate),
+        })
+        await fetchTransactions({
+          ...data,
+          beginDate: formatToISO(beginDate),
+          endDate: formatToISO(endDate),
+        })
+      } catch (err) {
+        setError('Erro ao carregar o dashboard.')
+      } finally {
+        setIsLoadingDashboard(false)
+      }
     },
     [fetchDashboard, fetchTransactions],
   )
 
   const onSubmitFinancialEvolution = useCallback(
     async (data: FinancialEvolutionFilterData) => {
-      await fetchFinancialEvolution(data)
+      setIsLoadingFinancialEvolution(true)
+      setError(null)
+      try {
+        await fetchFinancialEvolution(data)
+      } catch (err) {
+        setError('Erro ao carregar a evolução financeira.')
+      } finally {
+        setIsLoadingFinancialEvolution(false)
+      }
     },
     [fetchFinancialEvolution],
   )
@@ -135,22 +194,29 @@ export function Home() {
       </Header>
 
       <Main>
-        <Balance>
-          <Card
-            title="Ganhos"
-            amount={dashboard?.balance?.incomes || 0}
-            variant="incomes"
-          />
-          <Card
-            title="Gastos"
-            amount={dashboard?.balance?.expenses * -1 || 0}
-            variant="expenses"
-          />
-          <Card
-            title="Saldo disponiivel"
-            amount={dashboard?.balance?.balance || 0}
-          />
-        </Balance>
+        {error && <p>{error}</p>}
+
+        {isLoadingDashboard ? (
+          <p>Carregando Dashboard...</p>
+        ) : (
+          <Balance>
+            <Card
+              title="Ganhos"
+              amount={dashboard?.balance?.incomes || 0}
+              variant="incomes"
+            />
+            <Card
+              title="Gastos"
+              amount={dashboard?.balance?.expenses * -1 || 0}
+              variant="expenses"
+            />
+            <Card
+              title="Saldo disponiivel"
+              amount={dashboard?.balance?.balance || 0}
+            />
+          </Balance>
+        )}
+
         <Filters>
           <Title title="Saldo" subtitle="Entradas e Saídas no período" />
           <InputGroup>
@@ -196,26 +262,35 @@ export function Home() {
               />
             </SearchTransaction>
           </header>
-          <TransactionGroup>
-            {transactions?.length &&
-              transactions?.map((item, index) => (
-                <Transaction
-                  key={item._id}
-                  id={index + 1}
-                  amount={
-                    item.type === 'expense' ? item.amount * -1 : item.amount
-                  }
-                  date={dayjs(item.date).add(3, 'hours').format('DD/MM/YYYY')}
-                  category={{
-                    title: item.category.title,
-                    color: item.category.color,
-                  }}
-                  title={item.title}
-                  variant={item.type}
-                />
-              ))}
-          </TransactionGroup>
+          {isLoadingTransactions ? (
+            <p>Carregando transações...</p>
+          ) : (
+            <TransactionGroup>
+              {transactions?.length ? (
+                transactions.map((item, index) => (
+                  <Transaction
+                    key={item._id}
+                    id={index + 1}
+                    amount={
+                      item.type === 'expense' ? item.amount * -1 : item.amount
+                    }
+                    date={dayjs(item.date).add(3, 'hours').format('DD/MM/YYYY')}
+                    category={{
+                      title: item.category.title,
+                      color: item.category.color,
+                    }}
+                    title={item.title}
+                    variant={item.type}
+                    onDelete={() => handleDeleteTransaction(item._id)} // Passando a função onDelete
+                  />
+                ))
+              ) : (
+                <p>Nenhuma transação encontrada</p>
+              )}
+            </TransactionGroup>
+          )}
         </Aside>
+
         <Section>
           <ChartContainer>
             <header>
@@ -240,6 +315,7 @@ export function Home() {
               />
             </ChartContent>
           </ChartContainer>
+
           <ChartContainer>
             <header>
               <Title
@@ -264,11 +340,16 @@ export function Home() {
                 />
               </ChartAction>
             </header>
-            <ChartContent>
-              <FinancialEvolutionBarChart
-                financialEvolution={financialEvolution}
-              />
-            </ChartContent>
+
+            {isLoadingFinancialEvolution ? (
+              <p>Carregando evolução financeira...</p>
+            ) : (
+              <ChartContent>
+                <FinancialEvolutionBarChart
+                  financialEvolution={financialEvolution}
+                />
+              </ChartContent>
+            )}
           </ChartContainer>
         </Section>
       </Main>

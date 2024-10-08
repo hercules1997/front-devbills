@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 import {
   Category,
@@ -10,12 +10,12 @@ import {
   FinancialEvolutionFilters,
   Transaction,
   TransactionsFilter,
-} from './api-types';
+} from './api-types'
 
 export class APIService {
   private static client = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
-  });
+  })
 
   static async getDashboard({
     beginDate,
@@ -29,9 +29,8 @@ export class APIService {
           endDate,
         },
       },
-    );
-
-    return data;
+    )
+    return data
   }
 
   static async createTransaction(
@@ -40,9 +39,8 @@ export class APIService {
     const { data } = await APIService.client.post<Transaction>(
       '/transactions',
       createTransactionData,
-    );
-
-    return data;
+    )
+    return data
   }
 
   static async getTransactions({
@@ -61,9 +59,13 @@ export class APIService {
           endDate,
         },
       },
-    );
+    )
+    return data
+  }
 
-    return data;
+  static async deleteTransaction(_id: string): Promise<void> {
+    // Corrigido para usar _id diretamente na URL
+    await APIService.client.delete(`/transactions/${_id}`)
   }
 
   static async createCategory(
@@ -72,15 +74,13 @@ export class APIService {
     const { data } = await APIService.client.post<Category>(
       '/categories',
       createCategoryData,
-    );
-
-    return data;
+    )
+    return data
   }
 
   static async getCategories(): Promise<Category[]> {
-    const { data } = await APIService.client.get<Category[]>('/categories');
-
-    return data;
+    const { data } = await APIService.client.get<Category[]>('/categories')
+    return data
   }
 
   static async getFinancialEvolution({
@@ -93,8 +93,7 @@ export class APIService {
           year,
         },
       },
-    );
-
-    return data;
+    )
+    return data
   }
 }

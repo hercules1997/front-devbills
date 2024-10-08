@@ -1,19 +1,16 @@
 import { z } from 'zod';
+const regexData = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/
 
 export const transactionsFilterSchema = z.object({
   title: z.string().optional(),
   categoryId: z.string().optional(),
-  beginDate: z
-    .string()
-    .regex(/^(0[1-9]|[12][0-9]|3[01]\/0[0-9]|1[0-2]\/\d{4}$)/, {
-      message: 'Data inválida',
-    }),
-  endDate: z
-    .string()
-    .regex(/^(0[1-9]|[12][0-9]|3[01]\/0[0-9]|1[0-2]\/\d{4}$)/, {
-      message: 'Data inválida',
-    }),
-});
+  beginDate: z.string().regex(regexData, {
+    message: 'Data inválida',
+  }),
+  endDate: z.string().regex(regexData, {
+    message: 'Data inválida',
+  }),
+})
 
 export const createCategorySchema = z.object({
   title: z
@@ -24,6 +21,10 @@ export const createCategorySchema = z.object({
     .string()
     .regex(/^#[A-Fa-f0-9]{6}$/, { message: 'Deve seguir o padrão #rrggbb' }),
 });
+
+export const DeleteTransactionSchema = z.object({
+  id: z.string(), // Corrigido para z.string()
+})
 
 export const createTransactionSchema = z.object({
   categoryId: z
@@ -37,13 +38,13 @@ export const createTransactionSchema = z.object({
     .string()
     .min(1, { message: 'Deve conter pelo menos 1 dígito' })
     .max(255),
-  date: z.string().regex(/^(0[1-9]|[12][0-9]|3[01]\/0[0-9]|1[0-2]\/\d{4}$)/, {
+  date: z.string().regex(regexData, {
     message: 'Data inválida',
   }),
   type: z.enum(['income', 'expense'], {
     errorMap: () => ({ message: 'Selecione um tipo válido' }),
   }),
-});
+})
 
 export const financialEvolutionFilterSchema = z.object({
   year: z.string().regex(/\d/, { message: 'Digite um ano válido' }),

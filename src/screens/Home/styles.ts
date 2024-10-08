@@ -31,6 +31,10 @@ export const Main = styled.main`
   width: 100%;
   padding: 0 1.5rem 1.5rem 1.5rem;
 
+  p>{
+    color: red;
+  }
+
   @media (max-width: 1830px) {
     display: flex;
     flex-direction: column;

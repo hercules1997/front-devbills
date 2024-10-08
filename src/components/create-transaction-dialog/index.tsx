@@ -1,16 +1,15 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { InputMask } from '@react-input/mask';
-import dayjs from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-import { useFetchAPI } from '../../hooks/useFetchAPI';
-import { createTransactionSchema } from '../../validators/schemas';
-import { CreateTransactionData } from '../../validators/types';
-import { Button } from '../button';
-import { Dialog } from '../dialog';
-import { Input } from '../input';
-import { Title } from '../title';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { InputMask } from '@react-input/mask'
+import dayjs from 'dayjs'
+import { useCallback, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useFetchAPI } from '../../hooks/useFetchAPI'
+import { createTransactionSchema } from '../../validators/schemas'
+import { CreateTransactionData } from '../../validators/types'
+import { Button } from '../button'
+import { Dialog } from '../dialog'
+import { Input } from '../input'
+import { Title } from '../title'
 import {
   Container,
   Content,
@@ -19,11 +18,12 @@ import {
   InputGroup,
   RadioForm,
   RadioGroup,
-} from './styles';
+} from './styles'
 
 export function CreateTransactionDialog() {
-  const { categories, fetchCategories, createTransaction } = useFetchAPI();
-  const [open, setOpen] = useState(false);
+  const { categories, fetchCategories, createTransaction, transactions } =
+    useFetchAPI()
+  const [open, setOpen] = useState(false)
   const {
     register,
     reset,
@@ -38,24 +38,26 @@ export function CreateTransactionDialog() {
       type: 'income',
     },
     resolver: zodResolver(createTransactionSchema),
-  });
+  })
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchCategories()
+  }, [fetchCategories])
 
   const handleClose = useCallback(() => {
-    reset();
-    setOpen(false);
-  }, [reset]);
+    reset()
+    setOpen(false)
+  }, [reset])
 
-  const onSubmit = useCallback(
-    async (data: CreateTransactionData) => {
-      await createTransaction(data);
-      handleClose();
-    },
-    [handleClose, createTransaction],
-  );
+const onSubmit = useCallback(
+  async (data: CreateTransactionData) => {
+    await createTransaction(data)
+    handleClose()
+    window.location.reload()
+
+  },
+  [handleClose, createTransaction, transactions],
+)
 
   return (
     <Dialog
@@ -150,5 +152,5 @@ export function CreateTransactionDialog() {
         </form>
       </Container>
     </Dialog>
-  );
+  )
 }
